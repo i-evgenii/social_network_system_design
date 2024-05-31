@@ -16,7 +16,8 @@ This page contains homework for the System Design course.
 - Blocking comments on your posts;
 - Create connections between users (to track posts);
 - Ability to send private messages;
-- Post feed on the main profile page.
+- Post feed on the main profile page;
+- Search and filter vacation spots.
 
 ### Non-functional requirements:
 - CIS audience;
@@ -26,5 +27,5 @@ This page contains homework for the System Design course.
 - On average, there are 10 posts in a user’s feed.
 
 ## Basic calculations
-RPS (main user page) = 10 000 000 * 1 / 86 400 ~= 115
-RPS (loading posts) = 10 000 000 * 10 / 86 400 ~= 1150
+- RPS (main user page) = 10 000 000 * 1 / 86 400 ~= 115
+- RPS (loading posts) = 10 000 000 * 10 / 86 400 ~= 1150
