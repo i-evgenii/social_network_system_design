@@ -10,11 +10,9 @@ This page contains homework for the System Design course.
 - viewing feeds of other travelers.
 
 ### Functional requirements:
-- Authentication, roles (administrator/moderator, company, individual user);
+- Authentication;
 - Creation of posts (text and media);
-- Creating comments, reactions (emoticons);
-- Blocking comments on your posts;
-- Create connections between users (to track posts);
+- Adding comments to your own and other people's posts
 - Ability to send private messages;
 - Post feed on the main profile page;
 - Search and filter vacation spots.
@@ -24,8 +22,13 @@ This page contains homework for the System Design course.
 - DAU 10,000,000;
 - Possibility of automatic horizontal scaling;
 - Site usage averages 1 time per day by 1 user;
-- On average, there are 10 posts in a user’s feed.
+- On average, there are 10 posts in a user’s feed;
+- Availability 99.95;
+- A seasonal load (summer, New Year, long weekends).
 
 ## Basic calculations
-- RPS (main user page) = 10 000 000 * 1 / 86 400 ~= 115
-- RPS (loading posts) = 10 000 000 * 10 / 86 400 ~= 1150
+- RPS (viewing main user page) = 10 000 000 * 1 / 86 400 ~= 115
+- RPS (viewing other user posts) = 10 000 000 * 10 / 86 400 ~= 1150
+- RPS (creating posts) = 10 000 000 * 0.1 / 86 400 ~= 12
+- Traffic = 1277 * 100Kb = 128Mb/s
+- Connections = 10 000 000 * 0.1 = 1 000 000
