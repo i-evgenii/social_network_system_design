@@ -32,12 +32,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/posts'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/posts'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/posts'
         required: true
       responses:
         '200':
@@ -46,17 +40,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/posts'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/posts'
         '400':
           description: Invalid ID supplied
         '404':
           description: posts not found
         '422':
           description: Validation exception
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
     post:
@@ -71,12 +64,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/posts'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/posts'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/posts'
         required: true
       responses:
         '200':
@@ -85,24 +72,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/posts'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/posts'
         '400':
           description: Invalid input
         '422':
           description: Validation exception
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
   /posts/findByStatus:
     get:
       tags:
         - posts
-      summary: Finds postss by status
+      summary: Finds posts by status
       description: Multiple status values can be provided with comma separated strings
-      operationId: findpostssByStatus
+      operationId: findpostsByStatus
       parameters:
         - name: status
           in: query
@@ -116,6 +102,12 @@ paths:
               - available
               - pending
               - sold
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of posts per page
       responses:
         '200':
           description: successful operation
@@ -125,15 +117,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/posts'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/posts'
         '400':
           description: Invalid status value
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
   /posts/findByTags:
@@ -162,26 +151,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/posts'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/posts'
         '400':
           description: Invalid tag value
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
-  /posts/{postsId}:
+  /posts/{postId}:
     get:
       tags:
         - posts
-      summary: Find posts by ID
-      description: Returns a single posts
-      operationId: getpostsById
+      summary: Find post by ID
+      description: Returns a single post
+      operationId: getpostById
       parameters:
-        - name: postsId
+        - name: postId
           in: path
           description: ID of posts to return
           required: true
@@ -195,16 +181,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/posts'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/posts'
         '400':
           description: Invalid ID supplied
         '404':
           description: posts not found
+        '500':
+          description: Internal server error
       security:
         - api_key: []
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
     post:
@@ -214,7 +199,7 @@ paths:
       description: ''
       operationId: updatepostsWithForm
       parameters:
-        - name: postsId
+        - name: postId
           in: path
           description: ID of posts that needs to be updated
           required: true
@@ -234,8 +219,10 @@ paths:
       responses:
         '400':
           description: Invalid input
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
     delete:
@@ -251,7 +238,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: postsId
+        - name: postId
           in: path
           description: posts id to delete
           required: true
@@ -261,11 +248,13 @@ paths:
       responses:
         '400':
           description: Invalid posts value
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
-  /posts/{postsId}/uploadImage:
+  /posts/{postId}/uploadImage:
     post:
       tags:
         - posts
@@ -273,7 +262,7 @@ paths:
       description: ''
       operationId: uploadFile
       parameters:
-        - name: postsId
+        - name: postId
           in: path
           description: ID of posts to update
           required: true
@@ -299,8 +288,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: Internal server error
       security:
-        - postsstore_auth:
+        - snft_auth:
             - write:postss
             - read:postss
   /comments:
@@ -316,12 +307,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/comments'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/comments'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/comments'
         required: true
       responses:
         '200':
@@ -330,19 +315,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comments'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/comments'
         '400':
           description: Invalid ID supplied
         '404':
           description: comments not found
         '422':
           description: Validation exception
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
     post:
       tags:
         - comments
@@ -355,12 +339,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/comments'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/comments'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/comments'
         required: true
       responses:
         '200':
@@ -369,24 +347,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comments'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/comments'
         '400':
           description: Invalid input
         '422':
           description: Validation exception
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
   /comments/findByStatus:
     get:
       tags:
         - comments
-      summary: Finds commentss by status
+      summary: Finds comments by status
       description: Multiple status values can be provided with comma separated strings
-      operationId: findcommentssByStatus
+      operationId: findcommentsByStatus
       parameters:
         - name: status
           in: query
@@ -409,24 +386,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/comments'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/comments'
         '400':
           description: Invalid status value
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
   /comments/findByTags:
     get:
       tags:
         - comments
-      summary: Finds commentss by tags
+      summary: Finds comments by tags
       description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-      operationId: findcommentssByTags
+      operationId: findcommentsByTags
       parameters:
         - name: tags
           in: query
@@ -446,17 +420,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/comments'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/comments'
         '400':
           description: Invalid tag value
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
   /comments/{commentsId}:
     get:
       tags:
@@ -472,6 +443,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of comments per page
       responses:
         '200':
           description: successful operation
@@ -479,18 +456,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comments'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/comments'
         '400':
           description: Invalid ID supplied
         '404':
           description: comments not found
+        '500':
+          description: Internal server error
       security:
         - api_key: []
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
     post:
       tags:
         - comments
@@ -518,10 +494,12 @@ paths:
       responses:
         '400':
           description: Invalid input
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
     delete:
       tags:
         - comments
@@ -545,10 +523,12 @@ paths:
       responses:
         '400':
           description: Invalid comments value
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
   /comments/{commentsId}/uploadImage:
     post:
       tags:
@@ -583,10 +563,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: Internal server error
       security:
-        - commentsstore_auth:
-            - write:commentss
-            - read:commentss
+        - snft_auth:
+            - write:comments
+            - read:comments
   /user:
     post:
       tags:
@@ -600,20 +582,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
       responses:
         default:
           description: successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/User'
   /user/createWithList:
@@ -637,9 +610,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
         default:
           description: successful operation
   /user/login:
@@ -677,14 +649,13 @@ paths:
                 type: string
                 format: date-time
           content:
-            application/xml:
-              schema:
-                type: string
             application/json:
               schema:
                 type: string
         '400':
           description: Invalid username/password supplied
+        '500':
+          description: Internal server error
   /user/logout:
     get:
       tags:
@@ -717,13 +688,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
         '400':
           description: Invalid username supplied
         '404':
           description: User not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - user
@@ -741,12 +711,6 @@ paths:
         description: Update an existent user in the store
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/User'
       responses:
@@ -770,6 +734,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+        '500':
+          description: Internal server error
 components:
   schemas:
     User:
@@ -907,9 +873,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/posts'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/posts'
     UserArray:
       description: List of user object
       content:
@@ -919,22 +882,16 @@ components:
             items:
               $ref: '#/components/schemas/User'
   securitySchemes:
-    postsstore_auth:
+    snft_auth:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: https://postsstore3.swagger.io/oauth/authorize
+          authorizationUrl: https://snft3.swagger.io/oauth/authorize
           scopes:
-            write:postss: modify postss in your account
-            read:postss: read your postss
-    commentsstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://postsstore3.swagger.io/oauth/authorize
-          scopes:
-            write:postss: modify commentss in your account
-            read:postss: read your commentss
+            write:posts: modify posts in your account
+            read:posts: read your posts
+            write:comments: modify comments in your account
+            read:comments: read comments in your account
     api_key:
       type: apiKey
       name: api_key
