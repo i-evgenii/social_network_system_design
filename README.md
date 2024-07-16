@@ -40,3 +40,10 @@ This page contains homework for the System Design course.
 - Disks_for_throughput = 128 МБ/с / 500 МБ/с ~= 0.3
 - Disks_for_iops = 32000 / 1000 = 32
 - Disks = max(ceil(1.5), ceil(1.1), ceil(3)) = 32
+
+### Hosts calculations
+- Replication factor = 2
+- Replication = master-slave/sync
+- Sharding = key based by user_id
+- 5 SSD per 8Tb (2x factor)
+- 5 shards with 1 SSD per 8Tb (2x factor)
