@@ -1,0 +1,7 @@
+Table chats {
+  id uuid [primary key]
+  user1 uuid [not null, ref: > users.id]
+  user2 uuid [not null, ref: > users.id]
+}
+
+Ref: chats.id > messages.chat_id
