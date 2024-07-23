@@ -1,0 +1,27 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User")
+Container(loadBalancer, "Load Balancer", "Nginx", "Uses round robin")
+
+System_Boundary(coreSystem, "Core system") {
+    Container(urlService, "API Service", "Go", "Handles users requests", $tags="webApp")
+    ContainerDb(dbChats, "Chats database", "PgSQL", "Stores chats relations",  $tags="db")
+    ContainerDb(dbComments, "Comments database", "PgSQL", "Stores comments",  $tags="db")
+    ContainerDb(dbMessages, "Messages database", "PgSQL", "Stores messages",  $tags="db")
+    ContainerDb(dbPosts, "Posts database", "PgSQL", "Stores posts",  $tags="db")
+    ContainerDb(dbUsers, "Users database", "PgSQL", "Stores users",  $tags="db")
+    ContainerDb(dbMedia, "Media database", "PgSQL", "Stores link to media",  $tags="db")
+    ContainerDb(dbMediaFiles, "Media files database", "S3", "Stores media files",  $tags="db")
+}
+
+Rel(user, loadBalancer, "Browses the site, makes posts, writes comments", "REST")
+Rel(loadBalancer, urlService, "Handles users requests", "REST")
+Rel(urlService, dbUsers, "Get user information")
+Rel(urlService, dbChats, "Get chats information")
+Rel(urlService, dbComments, "Get comments information")
+Rel(urlService, dbMessages, "Get messages information")
+Rel(urlService, dbPosts, "Get posts information")
+Rel(urlService, dbMedia, "Get media information")
+Rel(urlService, dbMediaFiles, "Get mediafile")
+@enduml
