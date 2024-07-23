@@ -79,6 +79,11 @@ This page contains homework for the System Design course.
 ### Hosts calculations
 - Replication factor = 2
 - Replication = master-slave/sync
-- Sharding = key based by user_id
-- 5 SSD per 8Tb (2x factor)
-- 5 shards with 1 SSD per 8Tb (2x factor)
+- Sharding = per database
+- 1 SSD per 1Tb (2x factor)
+- 3 SSD per 2Tb (2x factor)
+- 4 SSD per 8Tb (2x factor)
+- 2 hosts with 1 SSD per 1Tb (2x factor)
+- 1 host with 1 SSD per 2Tb (2x factor)
+- 2 hosts with 2 SSD per 2Tb (2x factor)
+- 1 host with 4 SSD per 8Tb (2x factor)
