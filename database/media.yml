@@ -1,0 +1,8 @@
+Table media {
+  id integer [primary key]
+  post_id integer
+  media_url varchar
+  created_at timestamp
+}
+
+Ref: media.post_id > posts.id

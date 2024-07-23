@@ -1,0 +1,13 @@
+Table messages {
+  id INTEGER [pk]
+  sender_id INTEGER
+  receiver_id INTEGER
+  chat_id INTEGER
+  message TEXT
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+}
+
+Ref: messages.sender_id > chats.user1
+
+Ref: messages.receiver_id > chats.user2
