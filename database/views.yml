@@ -1,0 +1,19 @@
+Table posts_view {
+  id integer [primary key]
+  post_id integer
+  user_id integer
+  is_viewed bool
+}
+
+Ref: posts_view.user_id > users.id
+Ref: posts_view.post_id > posts.id
+
+Table messages_view {
+  id integer [primary key]
+  message_id integer
+  user_id integer
+  is_viewed bool
+}
+
+Ref: messages_view.user_id > users.id
+Ref: messages_view.message_id > messages.id
