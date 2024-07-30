@@ -76,8 +76,15 @@ This page contains homework for the System Design course.
 - Disks_for_iops = 750 / 1000 = 0.75
 - Disks = max(ceil(2), ceil(0.006), ceil(0.75)) = 2
 
-- Projected views data volume per year ~= 12 * 2Kb * 86400 * 365 ~= 760Gb
-- Projected views number of iops ~= 3Mb/s / 4Kb ~= 750
+- Projected messages_view data volume per year ~= 12 * 2Kb * 86400 * 365 ~= 760Gb
+- Projected messages_view number of iops ~= 3Mb/s / 4Kb ~= 750
+- Disks_for_capacity = 760 Gb / 512 Gb  ~= 2
+- Disks_for_throughput = 3 Mb/s / 500 Mb/s = 0.006
+- Disks_for_iops = 750 / 1000 = 0.75
+- Disks = max(ceil(2), ceil(0.006), ceil(0.75)) = 2
+
+- Projected posts_view data volume per year ~= 12 * 2Kb * 86400 * 365 ~= 760Gb
+- Projected posts_view number of iops ~= 3Mb/s / 4Kb ~= 750
 - Disks_for_capacity = 760 Gb / 512 Gb  ~= 2
 - Disks_for_throughput = 3 Mb/s / 500 Mb/s = 0.006
 - Disks_for_iops = 750 / 1000 = 0.75
@@ -87,10 +94,10 @@ This page contains homework for the System Design course.
 - Replication factor = 2
 - Replication = master-slave/sync
 - Sharding = per database
-- 1 SSD per 1Tb (2x factor)
+- 4 SSD per 1Tb (2x factor)
 - 3 SSD per 2Tb (2x factor)
 - 4 SSD per 8Tb (2x factor)
-- 3 hosts with 1 SSD per 1Tb (2x factor)
+- 4 hosts with 1 SSD per 1Tb (2x factor)
 - 1 host with 1 SSD per 2Tb (2x factor)
 - 2 hosts with 2 SSD per 2Tb (2x factor)
 - 1 host with 4 SSD per 8Tb (2x factor)
