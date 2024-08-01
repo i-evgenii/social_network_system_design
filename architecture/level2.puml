@@ -1,0 +1,54 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User")
+Container(loadBalancer, "Load Balancer", "Nginx", "Route user's requests")
+
+System_Boundary(authSystem, "Authenticate users") {
+    Container(authService, "Auth Service", "Go", "Handles users requests", $tags="webApp")
+}
+
+System_Boundary(postsSystem, "Posts system") {
+    Container(postsService, "API Service", "Go", "Handles users requests", $tags="webApp")
+    ContainerDb(dbComments, "Comments database", "PgSQL", "Stores comments",  $tags="db")
+    ContainerDb(dbPosts, "Posts database", "PgSQL", "Stores posts",  $tags="db")
+    ContainerDb(dbPosts_view, "Posts view status", "PgSQL", "Stores status of posts",  $tags="db")
+}
+
+System_Boundary(msgsSystem, "Messages system") {
+    Container(messagesService, "API Service", "Go", "Handles users requests", $tags="webApp")
+    ContainerDb(dbChats, "Chats database", "PgSQL", "Stores chats relations",  $tags="db")
+    ContainerDb(dbMessages, "Messages database", "PgSQL", "Stores messages",  $tags="db")
+    ContainerDb(dbMessages_view, "Messages view status", "PgSQL", "Stores status of messages",  $tags="db")
+}
+
+System_Boundary(storageSystem, "Storage system") {
+    Container(storageService, "API Service", "Go", "Handles users requests", $tags="webApp")
+    ContainerDb(dbMedia, "Media database", "PgSQL", "Stores link to media",  $tags="db")
+    ContainerDb(dbMediaFiles, "Media files database", "S3", "Stores media files",  $tags="db")
+}
+
+System_Boundary(coreSystem, "Core system") {
+    Container(coreService, "API Service", "Go", "Handles users requests", $tags="webApp")
+    ContainerDb(dbUsers, "Users database", "PgSQL", "Stores users",  $tags="db")
+}
+
+Rel(user, loadBalancer, "Browses the site, makes posts, writes comments", "REST")
+Rel(loadBalancer, authService, "Handles users requests", "REST")
+Rel(loadBalancer, messagesService, "Handles users requests", "REST")
+Rel(loadBalancer, postsService, "Handles users requests", "REST")
+Rel(authService, coreService, "Exchange users information")
+Rel(postsService, dbComments, "Get/save comments information")
+Rel(postsService, dbPosts, "Get/save posts information")
+Rel(postsService, dbPosts_view, "Get/save posts status")
+Rel(postsService, storageService, "Get/save media")
+Rel(postsService, coreService, "Get users")
+Rel(messagesService, dbChats, "Get/save chats information")
+Rel(messagesService, dbMessages, "Get/save messages information")
+Rel(messagesService, dbMessages_view, "Get/save messages information")
+Rel(messagesService, storageService, "Get/save media")
+Rel(messagesService, coreService, "Get users")
+Rel(storageService, dbMedia, "Get media information")
+Rel(storageService, dbMediaFiles, "Get mediafile")
+Rel(coreService, dbUsers, "Get mediafile")
+@enduml
